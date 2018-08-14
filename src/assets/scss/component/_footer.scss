@@ -1,0 +1,42 @@
+footer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    padding: 2.5rem 10px;
+    margin: 6rem auto 0;
+    border-top: 1px solid #e8e8e8;
+
+    .copyright {
+        float: left;
+    }
+
+    .social_icons {
+        float: right;
+
+        ul, ul li {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            li {
+                list-style-type: none;
+                float: left;
+                margin-right: 3rem;
+
+                a {
+                    font-size: 2rem;
+                    line-height: normal;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+                
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,28 @@
+// Base Colors
+$txtCol: #4a4a4a;
+$black: #010000;
+$dark_blue: #003c76;
+$white: #ffffff;
+$orange: #f5a637;
+$red: #bc3030;
+$lightGrey: #ccc;
+$lightBlue: #69b3d0;
+
+// admin colors 
+$darkSlateGray: #272F37;
+$sandyBrown: #EDB33D;
+$whiteSmoke: #F9F9F9;
+$mediumSeaGreen: #43BE7D;
+$Violet: #EFA5C3;
+
+@mixin translateY($e) {
+    -webkit-transform: translateY($e);
+    -moz-transform: translateY($e);
+    transform: translateY($e);
+}
+
+@mixin transition($e) {
+    -webkit-transition:$e;
+    -moz-transition:$e;
+    transition:$e;
+}

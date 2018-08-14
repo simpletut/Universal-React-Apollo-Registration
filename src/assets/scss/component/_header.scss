@@ -1,0 +1,89 @@
+header {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 8rem;
+    padding: 0 10px;
+    margin: 0 auto 0;
+    border-bottom: 1px solid #e8e8e8;
+    text-align: right;
+
+    .header_links {
+        display: inline-block;
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        transform: translateY(-50%);
+        margin-right: 10px;
+        vertical-align: top;
+    }
+
+
+    .your_account {
+        display: inline-block;
+        height: 100%;
+        margin: 0 10px 0 2rem;
+
+        .wrap {
+            height: 100%;
+            
+            .profile_img {
+                position: relative;
+                display: inline-block;
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+                overflow: hidden;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                -moz-transform: translateY(-50%);
+                transform: translateY(-50%);
+                margin: 0 1rem 0 0;
+
+                img {
+                    display: block;
+                    max-width: 12rem;
+                    position: absolute;
+                    top: 50%; left: 50%;
+                    -webkit-transform: translate(-50%, -50%);
+                    -moz-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                }
+
+            }
+
+            .caption {
+                display: inline-block;
+                height: 100%;
+                vertical-align: top;
+
+                span {
+                    display: inline-block;
+                    line-height: 1;
+                    position: relative;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%);
+                    -moz-transform: translateY(-50%);
+                    transform: translateY(-50%);
+
+                    i {
+                        display: inline-block;
+                        margin-right: .6rem
+                    }
+
+                }
+
+            }
+
+        }
+
+        nav {
+            display: none;
+        }
+
+    }
+
+
+
+}

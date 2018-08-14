@@ -1,0 +1,88 @@
+
+.pageHeaderSection {
+    margin-top: 3rem;
+}
+
+.users_wrap {
+    display: inline-block;
+    width: 100%;
+    margin-top: 4rem;
+
+    .users {
+
+        .column { margin: 0; }
+
+        .user {
+            display: block;
+            width: 100%;
+            margin: 0 auto 2rem;
+            padding: 0 10px;
+            max-width: 42.5rem;
+    
+            .wrap {
+                width: 100%;
+                height: auto;
+                display: block;
+                background: $darkSlateGray;
+                border-bottom-right-radius: 50px;
+                border-top-left-radius: 50px;
+                overflow: hidden;
+    
+                .profile_image {
+                    position: relative;
+                    width: 100%;
+                    height: 30rem;
+                    padding: 0 4rem;
+                    overflow: hidden;
+    
+                    img {
+                        position: absolute;
+                        display: block;
+                        width: auto;
+                        height: 105%;
+                        top: 50%; left: 50%;
+                        -webkit-transform: translate(-50%, -50%);
+                        -moz-transform: translate(-50%, -50%);
+                        transform: translate(-50%, -50%);
+                    }
+                }
+    
+                .title {
+                    font-size: 1.8rem;
+                    line-height: 2.4rem;
+                    color: $whiteSmoke;
+                    font-weight: 700;
+                    display: block;
+                    width: 100%;
+                    padding: 2rem 10px;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+    
+            }
+        }
+    }
+
+}
+
+.userProfilePage {
+    margin: 3rem 0;
+    
+    .profileImage {
+        img {
+            display: block;
+            width: 100%;
+            border-bottom-right-radius: 50px;
+            border-top-left-radius: 50px;
+        }
+    }
+    .user {
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+        font-weight: 700;
+        padding: 1.5rem 10px;
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+}

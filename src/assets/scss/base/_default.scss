@@ -1,0 +1,158 @@
+// Font weights
+// regular 400
+// bold 700
+
+html {
+    font-size: 10px;
+}
+
+*, *:before, *:after  {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body, #root, .container {
+    height: 100%;
+}
+
+.hide {
+    display: none !important;
+}
+
+::-moz-selection { background: $black; color: $white;}
+::selection { background: $black; color: $white; text-shadow: none; }
+
+.hidden { display:none; }
+.clear { clear: both; }
+
+.float-left { float: left; }
+.float-right { float: right; }
+
+body {
+    font-family: 'Lato',helvetica,arial,clean,sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: normal;
+    color: $txtCol;
+    padding: 0;
+    margin: 0;
+}
+
+a, p, strong {
+    line-height: 2.4rem;
+}
+
+a {
+    color: $black;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover,
+    &:visited {
+        color: $dark_blue;
+    }
+
+}
+
+a, a:hover {
+    @include transition(all .4s ease-in-out);
+}
+
+p {
+    margin: 0 0 1rem 0;
+}
+
+strong {
+    font-weight: 700;
+}
+
+ul.showList li {
+    list-style-type: disc;
+    margin: 20px;
+}
+
+// headings
+
+h1 {
+    font-size: 4.2rem;
+    line-height: 4.8rem;
+    color: $black;
+    font-weight: 400;
+    display: block;
+    width: 100%;
+    margin: 0 0 3.0rem 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 2.8rem;
+    line-height: 3.4rem;
+    color: $black;
+    font-weight: 400;
+    display: block;
+    width: 100%;
+    margin: 0 0 1.0rem 0;
+    padding: 0;
+}
+
+h3 {
+    font-size: 2.4rem;
+    line-height: 3.0rem;
+    color: $black;
+    font-weight: 400;
+    display: block;
+    width: 100%;
+    margin: 0 0 1.0rem 0;
+    padding: 0;
+}
+
+// Page transitions
+
+.anim-appear {
+    opacity: 0;
+}
+ 
+.anim-appear.anim-appear-active{
+    opacity: 1;
+    @include transition(opacity .8s ease-in);
+}
+
+// Layout
+
+.container {
+    position: relative;
+    padding-left: 25.0rem;
+
+    .sideBar {
+        position: fixed;
+        top: 0; left: 0;
+        width: 25.0rem;
+        height: 100%;
+        background: $darkSlateGray;
+
+        
+    }
+
+    .main {
+        height: 100%;
+
+        .grid {
+            min-height: calc(100% - 15.5rem);            
+        }
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 767px){  
+
+    h2 {
+        font-size: 2.0rem;
+        line-height: 2.5rem;
+    }
+
+}

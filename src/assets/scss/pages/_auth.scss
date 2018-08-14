@@ -1,0 +1,58 @@
+.authForm {
+    position: relative;
+    overflow: hidden;
+    max-width: 45.0rem;
+    width: 100%;
+    padding: 9rem 10px 3.2rem 10px;
+    margin: 4rem auto 0;
+    border: 1px solid #ccc;
+
+    &.fullWidth {
+        max-width: none;
+    }
+
+    .dark_headline {
+        position: absolute;
+        top: 0; left: 0;
+        font-size: 1.6rem;
+        line-height: 1.25em;
+        letter-spacing: .3125em;
+        font-weight: 700;
+        color: $white;
+        text-transform: uppercase;
+        text-align: center;
+        background-color: $darkSlateGray;
+        margin: 0;
+        padding: 1.5625em 0;
+    }
+
+    // Custom Form Validation - errors for password fields
+    .passwordsRequired,
+    .passwordMatch {
+        display: none;
+    }
+
+    .setProfileImage {
+        display: inline-block;
+        width: 100%;
+        margin: 0 auto 3rem;
+
+        .image {
+
+            img {
+                display: block;
+                width: 100%;
+            }
+
+        }
+
+        .file_input {
+            input {
+                border: none;
+                margin-bottom: 2rem;
+            }
+        }
+
+    }
+
+}

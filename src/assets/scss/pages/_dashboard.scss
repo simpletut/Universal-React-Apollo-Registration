@@ -1,0 +1,35 @@
+.dashboard {
+    padding: 2rem 0 0 0;
+
+    .content_wrap {
+        position: relative;
+        height: auto;
+        margin: 1rem 0;
+        padding: 2rem 1.5rem;
+        border: 1px solid #ccc;
+
+        &.noBoarder {
+            border: none;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            line-height: 3rem;
+            color: $black;
+            font-weight: 700;
+            display: block;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .desc {
+            font-size: 1.8rem;
+            line-height: 2.4rem;
+            color: $txtCol;
+            font-weight: 400;
+            display: block;
+            width: 100%;
+        }
+
+    }
+}

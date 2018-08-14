@@ -1,0 +1,73 @@
+.sideBar {
+
+    .logo_wrapper {
+        display: inline-block;
+        width: 100%;
+        margin: 4rem 0 2rem;
+
+        img {
+            display: block;
+            width: 100%;
+            max-width: 6rem;
+            margin: 0 auto;
+        }
+
+    }
+
+    .signbar_nav {
+
+        .headline {
+            display: block;
+            width: 100%;
+            font-size: 1.2rem;
+            line-height: normal;
+            font-weight: 400;
+            color: #cccccc;
+            margin: 1.5rem 0 0;
+            padding: 1.3rem 1.5rem;
+            background: #1c2127;
+            text-transform: uppercase;
+        }
+
+        ul, ul li {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            margin-bottom: 2rem;
+            
+            li {
+                display: block;
+                width: 100%;
+                list-style-type: none;
+
+                a {
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    font-size: 1.4rem;
+                    line-height: normal;
+                    font-weight: 400;
+                    color: $lightGrey;
+                    text-decoration: none;
+                    padding: 1.3rem 1.5rem 1.3rem 4.5rem;
+
+                    i {
+                        position: absolute;
+                        top: 50%; left: 1.5rem;
+                        -webkit-transform: translateY(-50%);
+                        -moz-transform: translateY(-50%);
+                        transform: translateY(-50%);
+                    }
+
+                    &:hover {
+                        color: $whiteSmoke;
+                    }
+                }
+
+            }
+        }
+
+    }
+}

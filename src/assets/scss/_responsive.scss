@@ -1,0 +1,92 @@
+@media only screen and (max-width: 1024px) {
+
+        header { display: none; }
+
+        .container {
+            padding: 0;
+
+            .sideBar {
+                width: 100%;
+                top: 0;
+                left: 0;
+                z-index: 100;
+                position: static;
+                height: auto;
+
+                .logo_wrapper {
+                    margin: 1.5rem 0;
+                }
+
+                .signbar_nav {
+
+                    .headline {
+                        margin: 0;
+                    }
+
+                    .mobile_nav_button.active {
+                        background: $lightGrey;
+                        color: $dark_blue;
+                    }
+
+                    ul {
+                        margin: 0;
+
+                        li {
+                            a {
+                                border-bottom: 1px solid $whiteSmoke;
+                            }
+        
+                            &:last-child {
+                                a {
+                                    border: none;
+                                }
+                            }
+                        }
+                    }
+
+                    .mobile_nav_toggle {
+                        height: auto;
+                        max-height: 0;
+                        overflow: hidden;
+
+                        &.active {
+                            max-height: 10000px;
+                            @include transition(all .8s ease-in-out);
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+        footer {
+            .copyright {
+                float: none;
+                width: 100%;
+                text-align: center;
+            }  
+
+            .social_icons {
+                float: none;
+                display: inline-block;
+                width: 100%;
+                text-align: center;
+                padding: 3rem 0;
+
+                ul {
+                    display: inline-block;
+
+                    li {
+                        margin: 0 3rem;
+
+                        &:last-child { margin-right: 3rem; }
+                        
+                    }
+
+                }
+            }
+        }
+
+}

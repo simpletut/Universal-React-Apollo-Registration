@@ -1,0 +1,114 @@
+/**********************************
+* 12 Column grid template
+**********************************/
+
+/* Apply Global Content Width */
+.grid {
+	max-width: 114.0rem;
+	margin: 0 auto;
+}
+
+.column {
+    float: left;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+/* - Remove additional padding on child elements (Must be the same value as 'grid_col' padding) */
+.col_child { margin: 0 -10px; }
+
+/* Default column widths - DO NOT CHANGE */
+.column_1_12 { width: 8.33333%; }
+.column_2_12 { width: 16.66667%; }
+.column_3_12 { width: 25%;}
+.column_4_12 { width: 33.33333%;}
+.column_5_12 { width: 41.66667%;}
+.column_6_12 { width: 50%; }
+.column_7_12 { width: 58.33333%; }
+.column_8_12 { width: 66.66667%; }
+.column_9_12 { width: 75%; }
+.column_10_12 { width: 83.33333%; }
+.column_11_12 { width: 91.66667%; }
+.column_12_12 { width: 100%; }
+
+.clear_fix { clear: both; }
+
+
+/**********************************
+* Flexbox - Equal height columns
+**********************************/
+
+.flexbox {
+    display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-lines: multiple;
+    -moz-box-lines: multiple;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+}
+
+.flexbox .column {
+	float: none;
+}
+
+
+
+/**********************************
+* Test 12 Column Grid Overlay
+**********************************/
+
+.grid.text_grid_overlay {
+	display: none;
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	margin: 0 auto;
+	height: 100%;
+}
+
+.grid.text_grid_overlay .column_1_12 {
+	height: 100%;
+	position: relative;
+	background: transparent;
+}
+
+.grid.text_grid_overlay .column_1_12 span {
+	display: block;
+	height: 100%;
+	background: rgba(255, 0, 0,0.8);
+}
+
+
+/**********************************
+* Responsive
+**********************************/
+
+
+
+
+@media only screen and (max-width: 1140px) {
+	.grid {
+		margin: 0 10px;
+	}
+}
+
+@media only screen and (max-width: 960px) {
+
+    .column, .flexbox_col { width: 100%; }
+
+    .flexbox {
+    	display: block;
+    }
+
+}

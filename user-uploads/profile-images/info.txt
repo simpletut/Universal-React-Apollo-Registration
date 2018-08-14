@@ -1,0 +1,1 @@
+Images are deliberately uploaded outside the root directory to prevent loss during builds. We have a custom route configured within 'server.js' to fetch and serve images. For an example, please see the users and user profile pages.
