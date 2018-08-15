@@ -4,6 +4,7 @@
     <img src="http://git-assets.react-starter-kit.com/logo.png">  
 </p>
 
+[![Build Status](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration.svg?branch=master)](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration)
 
 ### [Online Demo](https://react-user-registration.herokuapp.com/signup)
 
