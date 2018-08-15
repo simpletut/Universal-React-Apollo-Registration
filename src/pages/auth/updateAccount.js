@@ -138,7 +138,7 @@ class UpdateAccount extends React.Component {
                             return (
                                 <form onSubmit={event => this.handleChangeEmail(event, changeEmail)}>
 
-                                    <div className="form_wrap">
+                                    <div className="form_wrap updateAccountEmailForm">
 
                                         <div className="form_row">
 
@@ -191,7 +191,7 @@ class UpdateAccount extends React.Component {
                             return (
                                 <form onSubmit={event => this.handleChangePassword(event, changePassword)}>
 
-                                    <div className="form_wrap">
+                                    <div className="form_wrap updateAccountPasswordForm">
 
                                         <div className="form_row">
 

@@ -10,7 +10,7 @@ const head = () => {
 }
 
 const FAQ = () => (
-    <section className="content_block dashboard">
+    <section className="content_block faq">
     {head()}
         
         <div className="grid">

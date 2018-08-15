@@ -10,7 +10,7 @@ const head = () => {
 }
 
 const NotFound = () => (
-    <section className="content_block dashboard">
+    <section className="content_block notFound">
         {head()}
         
         <div className="grid">

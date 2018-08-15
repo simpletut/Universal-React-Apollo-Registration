@@ -10,7 +10,7 @@ const head = () => {
 }
 
 const PrivacyPolicy = () => (
-    <section className="content_block dashboard">
+    <section className="content_block privacyPolicy">
     {head()}
         
         <div className="grid">

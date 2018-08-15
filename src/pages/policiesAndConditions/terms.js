@@ -10,7 +10,7 @@ const head = () => {
 }
 
 const Terms = () => (
-    <section className="content_block dashboard">
+    <section className="content_block terms">
     {head()}
         
         <div className="grid">

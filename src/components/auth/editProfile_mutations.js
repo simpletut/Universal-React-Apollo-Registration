@@ -191,7 +191,7 @@ class EditProfileMutations extends React.Component {
 
                             <form className="form" onSubmit={event => this.handleSaveBio(event, editProfile)}>
 
-                                <div className="form_wrap">
+                                <div className="form_wrap editBioForm">
 
                                     <div className={classNames({ 'error-label': this.state.error != '' })}>
                                         {this.state.error}

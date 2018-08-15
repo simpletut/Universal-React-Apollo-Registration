@@ -4,7 +4,11 @@
     <img src="http://git-assets.react-starter-kit.com/logo.png">  
 </p>
 
+
 ### [Online Demo](https://react-user-registration.herokuapp.com/signup)
+
+As the Demo is hosted on a free Heroku account, the servers its hosted on enter ‘sleep mode’ when not in use. If you notice a delay, please allow a few seconds for the servers to wake up.
+
 
 ### System includes:
 
@@ -74,6 +78,7 @@ The User Registration System is <strong>Fully Responsive</strong> out the box an
 - [Run a Build](#run-a-build)
 - [Lunch/Run the project](#lunchrun-the-project)
 - [Server & Client Bundles](#server--client-bundles)
+- [Unit tests](#unit-tests)
 - [Create new pages](#create-new-pages)
 - [Restrict Access (Authenticated Users Only)](#restrict-access-authenticated-users-only)
 - [Custom Layouts](#custom-layouts)
@@ -94,6 +99,7 @@ For a detailed guide through the project architecture and more information on co
 
 ```
 ├── src
+│   ├──_test_
 │   ├──assets
 │   |  ├── email_templates
 │   |  ├── graphics
@@ -341,6 +347,41 @@ Webpack outputs both a Server and Client bundle.
 For security reasons, the server bundle exits outside of the public directory, which means that the file is NOT publicly accessible.
 
 Webpack is also configured not to bundle any libraries that exist in the 'node_modules' folder into the server bundle as they are not needed.
+
+
+### Unit tests
+
+Writing unit tests is recommended for any new features or logic that you develop.
+
+Whilst we are primarily using 'Jest' (framework from Facebook), to write our unit tests we are using a number of other libraries for testing. Please see the 'package.json' file for more information.
+
+We are currently writing tests for the following:
+
+- Components
+- Queries
+- Mutations
+
+There are two commands you can use to run tests. 
+
+1. yarn test OR npm test
+
+-	This will run your initial tests.
+
+2. yarn test-coverage OR npm test-coverage
+
+-	 Shows test coverage across our application.
+
+Please note: not all code within our project requires testing or is testable.
+
+#### Test file Structure
+
+All unit tests are housed within the 'src/_test_' directory. We have replicated the same file structure as our main application, however test files have '.test' appended to them.
+
+#### When should I run these tests?
+
+You should run these unit tests before pushing any work to a remote branch. Please do not approve any PR’s into the dev branch without the proper unit tests having been written.
+
+In the event a test fails, please ensure any relevant errors are resolved prior to committing the changes or creating a new PR.
 
 
 ## General usage 

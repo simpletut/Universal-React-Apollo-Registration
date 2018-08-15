@@ -10,7 +10,7 @@ const head = () => {
 }
 
 const CookiePolicy = () => (
-    <section className="content_block dashboard">
+    <section className="content_block cookiePolicy">
         {head()}
     
         <div className="grid">
