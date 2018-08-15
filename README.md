@@ -6,6 +6,8 @@
 
 [![Build Status](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration.svg?branch=master)](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration)
 
+![GitHub](https://img.shields.io/github/license/simpletut/Universal-React-Apollo-Registration.svg)
+
 ### [Online Demo](https://react-user-registration.herokuapp.com/signup)
 
 As the Demo is hosted on a free Heroku account, the servers its hosted on enter ‘sleep mode’ when not in use. If you notice a delay, please allow a few seconds for the servers to wake up.
