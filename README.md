@@ -6,7 +6,7 @@
 
 [![Build Status](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration.svg?branch=master)](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration)
 
-![GitHub](https://img.shields.io/github/license/simpletut/Universal-React-Apollo-Registration.svg)
+[![GitHub](https://img.shields.io/github/license/simpletut/Universal-React-Apollo-Registration.svg)](https://github.com/simpletut/Universal-React-Apollo-Registration/blob/master/LICENSE)
 
 ### [Online Demo](https://react-user-registration.herokuapp.com/signup)
 
