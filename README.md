@@ -4,14 +4,19 @@
     <img src="http://git-assets.react-starter-kit.com/logo.png">  
 </p>
 
-[![Build Status](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration.svg?branch=master)](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration)
-
-[![GitHub](https://img.shields.io/github/license/simpletut/Universal-React-Apollo-Registration.svg)](https://github.com/simpletut/Universal-React-Apollo-Registration/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration.svg?branch=master)](https://travis-ci.org/simpletut/Universal-React-Apollo-Registration) [![GitHub](https://img.shields.io/github/license/simpletut/Universal-React-Apollo-Registration.svg)](https://github.com/simpletut/Universal-React-Apollo-Registration/blob/master/LICENSE)
 
 ### [Online Demo](https://react-user-registration.herokuapp.com/signup)
 
 As the Demo is hosted on a free Heroku account, the servers its hosted on enter ‘sleep mode’ when not in use. If you notice a delay, please allow a few seconds for the servers to wake up.
 
+### YouTube Video Tutorials
+
+##### Introduction (Getting started)
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=11C_TDB3Ijw" target="_blank">
+	<img src="http://img.youtube.com/vi/11C_TDB3Ijw/0.jpg" width="240" height="180" />
+</a>
 
 ### System includes:
 
@@ -60,7 +65,7 @@ The User Registration System is <strong>Fully Responsive</strong> out the box an
 
 ## Table of Contents
 
-
+- [YouTube Video Tutorials](#youtube-video-tutorials)
 - [System includes](#system-includes)
 - [Tech Stack](#tech-stack)
 - [Top Features](#top-features)
