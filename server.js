@@ -44,7 +44,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origon: `${webConfig.siteURL}`,
+    origin: `${webConfig.siteURL}`,
     credentials: true
   })
 );
