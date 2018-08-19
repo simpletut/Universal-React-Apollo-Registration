@@ -55,8 +55,6 @@ exports.resolvers = {
 
             const user = await User.findOne({email, userName});
 
-            console.log(user, 1);
-
             if(user){
                 throw new Error('User already exits');
             }
