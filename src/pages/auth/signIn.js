@@ -97,7 +97,7 @@ class Signin extends React.Component {
 
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="text" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
+                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
