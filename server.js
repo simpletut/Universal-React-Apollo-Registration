@@ -183,7 +183,7 @@ app.post('/password-reset', (req, response) => {
     }, function(err, res){
         if(err){
             // console.log(err)
-            response.status(500).send('500 - Internal Server Error')
+            return response.status(500).send('500 - Internal Server Error')
         }
         response.status(200).send('200 - The request has succeeded.') 
     });
