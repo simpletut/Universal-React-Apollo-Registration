@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { EDIT_PROFILE, GET_ALL_USERS, GET_USER_PROFILE, GET_CURRENT_USER, SET_PROFILE_IMAGE, PROFILE_PAGE } from './../../queries';
 import { withRouter } from 'react-router-dom';
-import CKEditor from 'react-ckeditor-component';
+import CKEditor from 'react-ckeditor-wrapper';
 import axios from 'axios';
 import toastr from 'toastr';
 import webConfig from './../../../webConfig';
@@ -25,7 +25,7 @@ class EditProfileMutations extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.profile){
+        if (this.props.profile) {
             this.setState({
                 bio: this.props.profile.bio
             });
@@ -49,10 +49,9 @@ class EditProfileMutations extends React.Component {
         }
     }
 
-    handleEditorChange(event) {
-        const newContent = event.editor.getData();
+    handleEditorChange(bio) {
         this.setState({
-            bio: newContent
+            bio
         });
     }
 
@@ -113,27 +112,27 @@ class EditProfileMutations extends React.Component {
 
         return (
             <Fragment>
-                <Mutation mutation={SET_PROFILE_IMAGE} 
-                variables={{ email: this.props.session.getCurrentUser.email, profileImage: newFile }}
-                refetchQueries={() => [
-                    {query: GET_CURRENT_USER},
-                    {query: GET_ALL_USERS},
-                    {query: PROFILE_PAGE, variables: {userName} }
-                ]}
-                update={(cache, {data: {setProfileIMG}}) => {
+                <Mutation mutation={SET_PROFILE_IMAGE}
+                    variables={{ email: this.props.session.getCurrentUser.email, profileImage: newFile }}
+                    refetchQueries={() => [
+                        { query: GET_CURRENT_USER },
+                        { query: GET_ALL_USERS },
+                        { query: PROFILE_PAGE, variables: { userName } }
+                    ]}
+                    update={(cache, { data: { setProfileIMG } }) => {
 
-                    const {getCurrentUser} = cache.readQuery({
-                        query: GET_CURRENT_USER
-                    });
+                        const { getCurrentUser } = cache.readQuery({
+                            query: GET_CURRENT_USER
+                        });
 
-                    cache.writeQuery({
-                        query: GET_CURRENT_USER,
-                        data: {
-                            getCurrentUser: {...getCurrentUser, profileImage: setProfileIMG.profileImage}
-                        }
-                    });
+                        cache.writeQuery({
+                            query: GET_CURRENT_USER,
+                            data: {
+                                getCurrentUser: { ...getCurrentUser, profileImage: setProfileIMG.profileImage }
+                            }
+                        });
 
-                }}>
+                    }}>
 
                     {(setProfileIMG, { data, loading, error }) => {
 
@@ -177,13 +176,13 @@ class EditProfileMutations extends React.Component {
 
                 </Mutation>
 
-                <Mutation 
-                mutation={EDIT_PROFILE} 
-                variables={{ email: this.props.session.getCurrentUser.email, bio }}
-                refetchQueries={() => [
-                    {query: GET_USER_PROFILE},
-                    {query: PROFILE_PAGE, variables: {userName} }
-                ]}>
+                <Mutation
+                    mutation={EDIT_PROFILE}
+                    variables={{ email: this.props.session.getCurrentUser.email, bio }}
+                    refetchQueries={() => [
+                        { query: GET_USER_PROFILE },
+                        { query: PROFILE_PAGE, variables: { userName } }
+                    ]}>
 
                     {(editProfile, { data, loading, error }) => {
 
@@ -200,9 +199,9 @@ class EditProfileMutations extends React.Component {
                                     <div className="form_row">
 
                                         <CKEditor
-                                            name="bio"
-                                            content={bio}
-                                            events={{ change: this.handleEditorChange.bind(this) }}
+                                            value={bio}
+                                            onChange={this.handleEditorChange.bind(this)}
+                                            config={{ extraAllowedContent: 'div(*); p(*); strong(*);' }}
                                         />
 
                                     </div>

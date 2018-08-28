@@ -24,6 +24,7 @@ const HTML = ({ content, state, helmet }) => {
         <script dangerouslySetInnerHTML={{
             __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};`,
         }} />
+        <script src="https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
         <script src={`${webConfig.siteURL}/client_bundle.js`}></script>
     </body>
 </html>
