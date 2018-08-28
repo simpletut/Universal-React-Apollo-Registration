@@ -14,9 +14,6 @@
     "test": "jest",
     "test-coverage": "jest --coverage"
   },
-  "jest": {
-    "setupFiles": ["./src/_test_/test_scripts/ckeditor.min.js"]
-  },
   "dependencies": {
     "apollo-boost": "0.1.12",
     "apollo-cache-inmemory": "1.3.0-beta.6",
