@@ -26,12 +26,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            },
+                test: /\.js?$/,
+                loader: 'babel-loader',
+                exclude: '/node_modules/',
+                options: {
+                    presets: [
+                        'react', 'stage-0', ['env', {
+                            target: { browsers: ['last 2 versions']}
+                        }]
+                    ]
+                } 
+            }
         ]
     },
 

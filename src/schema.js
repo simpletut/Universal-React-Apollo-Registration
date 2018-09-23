@@ -7,8 +7,8 @@ exports.typeDefs = `
         password: String!
         bio: String
         profileImage: String
-        email: String! @unique
-        userName: String! @unique
+        email: String!
+        userName: String!
         joinDate: String
     }
 
