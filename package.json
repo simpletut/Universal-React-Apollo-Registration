@@ -55,7 +55,7 @@
     "webpack-cli": "3.1.0",
     "toastr": "2.1.4",
     "axios": "0.18.0",
-    "bcrypt": "3.0.0",
+    "bcrypt": "2.0.1",
     "classnames": "2.2.6",
     "concurrently": "3.6.1",
     "cookie-parser": "1.4.3",
