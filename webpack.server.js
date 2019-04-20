@@ -6,7 +6,7 @@ module.exports = {
 
     // production || development
     mode: webConfig.environment,
-    
+
     // Inform webpack that we're building a bundle
     // for nodeJS, rather then for the browser
     target: 'node',
@@ -26,17 +26,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js?$/,
-                loader: 'babel-loader',
-                exclude: '/node_modules/',
-                options: {
-                    presets: [
-                        'react', 'stage-0', ['env', {
-                            target: { browsers: ['last 2 versions']}
-                        }]
-                    ]
-                } 
-            }
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            },
         ]
     },
 

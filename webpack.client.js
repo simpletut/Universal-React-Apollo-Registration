@@ -3,10 +3,10 @@ const webConfig = require('./webConfig');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    
+
     // production || development
     mode: webConfig.environment,
-    
+
     // Tell webpack the root file of our
     // server application 
     entry: ['./src/client.js', './src/assets/scss/styles.scss'],
@@ -22,16 +22,11 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js?$/,
-                loader: 'babel-loader',
-                exclude: '/node_modules/',
-                options: {
-                    presets: [
-                        'react', 'stage-0', ['env', {
-                            target: { browsers: ['last 2 versions']}
-                        }]
-                    ]
-                } 
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader'
+                }
             },
             {
                 test: /\.scss$/,
@@ -47,12 +42,7 @@ module.exports = {
                         loader: 'extract-loader'
                     },
                     {
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true,
-                            url: true,
-                            root: webConfig.siteURL
-                        }
+                        loader: 'css-loader'
                     },
                     {
                         loader: 'sass-loader'
