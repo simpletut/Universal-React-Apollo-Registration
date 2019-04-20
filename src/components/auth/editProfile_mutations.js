@@ -9,220 +9,224 @@ import toastr from 'toastr';
 import webConfig from './../../../webConfig';
 
 const initialState = {
-    bio: '',
-    selectedFile: {},
-    newFile: '',
-    error: ''
+  bio: '',
+  selectedFile: {},
+  newFile: '',
+  error: ''
 }
 
 class EditProfileMutations extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            ...initialState
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...initialState
     }
+  }
 
-    componentDidMount() {
-        if (this.props.profile) {
-            this.setState({
-                bio: this.props.profile.bio
+  componentDidMount() {
+    if (this.props.profile) {
+      this.setState({
+        bio: this.props.profile.bio
+      });
+    }
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+  }
+
+  handleEditorChange(bio) {
+    this.setState({
+      bio
+    });
+  }
+
+  handleSaveBio(event, editProfile) {
+    event.preventDefault();
+    editProfile().then(async () => {
+      toastr.success('We have updated your profile!', 'Saved!');
+    }).catch(error => {
+      this.setState({
+        error: error.graphQLErrors.map(x => x.message)
+      })
+      // console.error("ERR =>", error.graphQLErrors.map(x => x.message));
+    });
+  }
+
+  selectedFile(e) {
+    e.preventDefault();
+    let selectedFile = e.target.files[0]
+    this.setState({
+      selectedFile
+    });
+  }
+
+  fileUPload(e, selectedFile) {
+
+    e.preventDefault();
+    const data = new FormData();
+    const file = this.state.selectedFile;
+    data.append('selectedFile', file);
+
+    axios.post('/upload', data).then(({ data: { newFileName } }) => {
+
+      this.setState({
+        newFile: newFileName
+      })
+
+      selectedFile(newFileName).then(async () => {
+
+        this.props.history.push('/edit-profile');
+        toastr.success('We have updated your profile image!', 'Saved!');
+
+      }).catch(() => {
+        // console.log(err);
+      });
+
+    }).catch(() => {
+      // console.log(err);
+    });
+
+
+  }
+
+  render() {
+
+    const { bio, newFile } = this.state
+    const userName = this.props.session.getCurrentUser.userName;
+    this.state;
+
+    return (
+      <Fragment>
+        <Mutation mutation={SET_PROFILE_IMAGE}
+          variables={{ email: this.props.session.getCurrentUser.email, profileImage: newFile }}
+          refetchQueries={() => [
+            { query: GET_CURRENT_USER },
+            { query: GET_ALL_USERS },
+            { query: PROFILE_PAGE, variables: { userName } }
+          ]}
+          update={(cache, { data: { setProfileIMG } }) => {
+
+            const { getCurrentUser } = cache.readQuery({
+              query: GET_CURRENT_USER
             });
-        }
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": true,
-            "progressBar": true,
-            "positionClass": "toast-bottom-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-    }
 
-    handleEditorChange(bio) {
-        this.setState({
-            bio
-        });
-    }
+            cache.writeQuery({
+              query: GET_CURRENT_USER,
+              data: {
+                getCurrentUser: { ...getCurrentUser, profileImage: setProfileIMG.profileImage }
+              }
+            });
 
-    handleSaveBio(event, editProfile) {
-        event.preventDefault();
-        editProfile().then(async ({ data }) => {
-            toastr.success('We have updated your profile!', 'Saved!');
-        }).catch(error => {
-            this.setState({
-                error: error.graphQLErrors.map(x => x.message)
-            })
-            console.error("ERR =>", error.graphQLErrors.map(x => x.message));
-        });
-    }
+          }}>
 
-    selectedFile(e) {
-        e.preventDefault();
-        let selectedFile = e.target.files[0]
-        this.setState({
-            selectedFile
-        });
-    }
+          {/* eslint-disable */}
+          {(setProfileIMG, { data, loading, error }) => {
+          /* eslint-enable */
 
-    fileUPload(e, selectedFile) {
+            return (
+              <div className="setProfileImage">
+                <form onSubmit={event => this.fileUPload(event, setProfileIMG)}>
 
-        e.preventDefault();
-        const data = new FormData();
-        const file = this.state.selectedFile;
-        data.append('selectedFile', file);
+                  <div className="grid">
 
-        axios.post('/upload', data).then(({ data: { newFileName } }) => {
+                    <div className="column column_6_12 image">
+                      {!this.props.session.getCurrentUser.profileImage &&
+                        <img src={`${webConfig.siteURL}/assets/graphics/abstract_patterns/texture.jpg`} />
+                      }
+                      {this.props.session.getCurrentUser.profileImage &&
+                        <img src={`${webConfig.siteURL}/user-uploads/${this.props.session.getCurrentUser.profileImage}`} />
+                      }
+                    </div>
 
-            this.setState({
-                newFile: newFileName
-            })
+                    <div className="column column_6_12">
+                      <h3>Profile image: </h3>
+                      <div className="file_input">
 
-            selectedFile(newFileName).then(async ({ data }) => {
+                        <input type="file" accept=".jpg, .png" name="profilePic" onChange={e => this.selectedFile(e)} />
 
-                this.props.history.push('/edit-profile');
-                toastr.success('We have updated your profile image!', 'Saved!');
+                      </div>
 
-            }).catch(err => console.log(err));
+                      <div className="form_buttons">
+                        <button type="submit" className="btn">
+                          Upload</button>
+                      </div>
 
-        }).catch(err => {
+                    </div>
 
-            console.log(err)
+                  </div>
 
-        });;
+                </form>
+              </div>
+            )
 
+          }}
 
-    }
+        </Mutation>
 
-    render() {
+        <Mutation
+          mutation={EDIT_PROFILE}
+          variables={{ email: this.props.session.getCurrentUser.email, bio }}
+          refetchQueries={() => [
+            { query: GET_USER_PROFILE },
+            { query: PROFILE_PAGE, variables: { userName } }
+          ]}>
 
-        const { bio, newFile } = this.state
-        const userName = this.props.session.getCurrentUser.userName;
-        this.state;
+          {/* eslint-disable */}
+          {(editProfile, { data, loading, error }) => {
+          /* eslint-enable */
 
-        return (
-            <Fragment>
-                <Mutation mutation={SET_PROFILE_IMAGE}
-                    variables={{ email: this.props.session.getCurrentUser.email, profileImage: newFile }}
-                    refetchQueries={() => [
-                        { query: GET_CURRENT_USER },
-                        { query: GET_ALL_USERS },
-                        { query: PROFILE_PAGE, variables: { userName } }
-                    ]}
-                    update={(cache, { data: { setProfileIMG } }) => {
+            return (
 
-                        const { getCurrentUser } = cache.readQuery({
-                            query: GET_CURRENT_USER
-                        });
+              <form className="form" onSubmit={event => this.handleSaveBio(event, editProfile)}>
 
-                        cache.writeQuery({
-                            query: GET_CURRENT_USER,
-                            data: {
-                                getCurrentUser: { ...getCurrentUser, profileImage: setProfileIMG.profileImage }
-                            }
-                        });
+                <div className="form_wrap editBioForm">
 
-                    }}>
+                  <div className={classNames({ 'error-label': this.state.error != '' })}>
+                    {this.state.error}
+                  </div>
 
-                    {(setProfileIMG, { data, loading, error }) => {
+                  <div className="form_row">
 
-                        return (
-                            <div className="setProfileImage">
-                                <form onSubmit={event => this.fileUPload(event, setProfileIMG)}>
+                    <CKEditor
+                      value={bio}
+                      onChange={this.handleEditorChange.bind(this)}
+                      config={{ extraAllowedContent: 'div(*); p(*); strong(*);' }}
+                    />
 
-                                    <div className="grid">
+                  </div>
 
-                                        <div className="column column_6_12 image">
-                                            {!this.props.session.getCurrentUser.profileImage &&
-                                                <img src={`${webConfig.siteURL}/assets/graphics/abstract_patterns/texture.jpg`} />
-                                            }
-                                            {this.props.session.getCurrentUser.profileImage &&
-                                                <img src={`${webConfig.siteURL}/user-uploads/${this.props.session.getCurrentUser.profileImage}`} />
-                                            }
-                                        </div>
+                  <div className="form_buttons">
+                    <button type="submit" className="btn"
+                      disabled={loading}>
+                      Save changes</button>
+                  </div>
 
-                                        <div className="column column_6_12">
-                                            <h3>Profile image: </h3>
-                                            <div className="file_input">
+                </div>
 
-                                                <input type="file" accept=".jpg, .png" name="profilePic" onChange={e => this.selectedFile(e)} />
+              </form>
 
-                                            </div>
+            );
+          }}
 
-                                            <div className="form_buttons">
-                                                <button type="submit" className="btn">
-                                                    Upload</button>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </form>
-                            </div>
-                        )
-
-                    }}
-
-                </Mutation>
-
-                <Mutation
-                    mutation={EDIT_PROFILE}
-                    variables={{ email: this.props.session.getCurrentUser.email, bio }}
-                    refetchQueries={() => [
-                        { query: GET_USER_PROFILE },
-                        { query: PROFILE_PAGE, variables: { userName } }
-                    ]}>
-
-                    {(editProfile, { data, loading, error }) => {
-
-                        return (
-
-                            <form className="form" onSubmit={event => this.handleSaveBio(event, editProfile)}>
-
-                                <div className="form_wrap editBioForm">
-
-                                    <div className={classNames({ 'error-label': this.state.error != '' })}>
-                                        {this.state.error}
-                                    </div>
-
-                                    <div className="form_row">
-
-                                        <CKEditor
-                                            value={bio}
-                                            onChange={this.handleEditorChange.bind(this)}
-                                            config={{ extraAllowedContent: 'div(*); p(*); strong(*);' }}
-                                        />
-
-                                    </div>
-
-                                    <div className="form_buttons">
-                                        <button type="submit" className="btn"
-                                            disabled={loading}>
-                                            Save changes</button>
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-                        );
-                    }}
-
-                </Mutation>
-            </Fragment>
-        )
-    }
+        </Mutation>
+      </Fragment>
+    )
+  }
 }
 
 export default withRouter(EditProfileMutations);

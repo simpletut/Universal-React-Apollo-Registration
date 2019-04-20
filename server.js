@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import 'isomorphic-unfetch';
-require('dotenv').config({path: 'variables.env'});
+require('dotenv').config({ path: 'variables.env' });
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
@@ -34,9 +34,9 @@ import User from './src/models/User';
 
 // Connect MongoDB
 mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true }).then(() => {
-    console.log('Connection to DB successful');
+  console.log('Connection to DB successful');
 }).catch(err => {
-    console.log(`Connection to DB Error: ${err}`);
+  console.log(`Connection to DB Error: ${err}`);
 });
 
 const app = express();
@@ -55,188 +55,188 @@ app.use(cookieParser())
 
 app.use("/", express.static("build/public"));
 
-app.get('/user-uploads/:file', function(req, res){
+app.get('/user-uploads/:file', function (req, res) {
 
-    const file_name = req.params.file;
-    const get_file = path.resolve('./user-uploads/profile-images/' + req.params.file);
-    const current_files = fs.readdirSync('./user-uploads/profile-images/');
-    const fileExists = current_files.includes(file_name);
+  const file_name = req.params.file;
+  const get_file = path.resolve('./user-uploads/profile-images/' + req.params.file);
+  const current_files = fs.readdirSync('./user-uploads/profile-images/');
+  const fileExists = current_files.includes(file_name);
 
-    if(fileExists){
-        res.status(200).sendFile(get_file);
-    }else{
-        res.status(404).send('No File Found!');
-    }
-    
+  if (fileExists) {
+    res.status(200).sendFile(get_file);
+  } else {
+    res.status(404).send('No File Found!');
+  }
+
 });
 
 // JWT Middelware 
 app.use(async (req, res, next) => {
 
   const token = req.cookies.token ? req.cookies.token : null;
-  if(token !== null){
-      try{
-          const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
-          req.currentUser = currentUser;
-      }catch(err){
-        //   console.error(err);
-          res.clearCookie('token');
-      }
+  if (token !== null) {
+    try {
+      const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
+      req.currentUser = currentUser;
+    } catch (err) {
+      //   console.error(err);
+      res.clearCookie('token');
+    }
   }
   next();
 });
 
 const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers
+  typeDefs,
+  resolvers
 });
 
 // create Graphiql app
 app.use('/graphiql', graphiqlExpress({
-    endpointURL: '/graphql'
+  endpointURL: '/graphql'
 }));
 
 // connect schema with graphql
 app.use('/graphql',
-    bodyParser.json(),
-    graphqlExpress(({ currentUser }) => ({
-        schema,
-        context: {
-            User,
-            currentUser
-        }
-    }))
+  bodyParser.json(),
+  graphqlExpress(({ currentUser }) => ({
+    schema,
+    context: {
+      User,
+      currentUser
+    }
+  }))
 );
 
 app.get(['*/:param', '*'], (req, res) => {
 
-    const URL_Param = req.params.param ? req.params.param : null;
+  const URL_Param = req.params.param ? req.params.param : null;
 
-    const client = new ApolloClient({
-        ssrMode: true,
-        // Remember that this is the interface the SSR server will use to connect to the
-        // API server, so we need to ensure it isn't firewalled, etc
-        link: createHttpLink({
-          uri: `${webConfig.siteURL}/graphql`,
-          credentials: 'same-origin',
-          headers: {
-            cookie: req.header('Cookie'),
-          },
-        }),
-        cache: new InMemoryCache(),
-      });
-    
-      const context = {
-        URL_Param
-      };
-    
-      // The client-side App will instead use <BrowserRouter>
-      const App = (
-        <ApolloProvider client={client}>
-          <StaticRouter location={req.url} context={context}>
-            <AppComponent />
-          </StaticRouter>
-        </ApolloProvider>
-      );
+  const client = new ApolloClient({
+    ssrMode: true,
+    // Remember that this is the interface the SSR server will use to connect to the
+    // API server, so we need to ensure it isn't firewalled, etc
+    link: createHttpLink({
+      uri: `${webConfig.siteURL}/graphql`,
+      credentials: 'same-origin',
+      headers: {
+        cookie: req.header('Cookie'),
+      },
+    }),
+    cache: new InMemoryCache(),
+  });
 
-      // Handle queries etc.. before sending raw html
-      getDataFromTree(App).then(() => {
+  const context = {
+    URL_Param
+  };
 
-        const content = ReactDOM.renderToString(App);
-        const helmet = Helmet.renderStatic();
-        
-        const initialState = client.extract();
-        const html = <HTML content={content} state={initialState} helmet={helmet} />;
-      
-        res.status(200);
-        res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`);
-        res.end();
+  // The client-side App will instead use <BrowserRouter>
+  const App = (
+    <ApolloProvider client={client}>
+      <StaticRouter location={req.url} context={context}>
+        <AppComponent />
+      </StaticRouter>
+    </ApolloProvider>
+  );
 
-      });
+  // Handle queries etc.. before sending raw html
+  getDataFromTree(App).then(() => {
+
+    const content = ReactDOM.renderToString(App);
+    const helmet = Helmet.renderStatic();
+
+    const initialState = client.extract();
+    const html = <HTML content={content} state={initialState} helmet={helmet} />;
+
+    res.status(200);
+    res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`);
+    res.end();
+
+  });
 
 });
 
 app.post('/password-reset', (req, response) => {
 
-    var mailer = nodemailer.createTransport({
-        host: process.env.NODEMAILER_HOST,
-        auth: {
-            user: process.env.NODEMAILER_AUTH_USER,
-            pass: process.env.NODEMAILER_AUTH_PW
-        }
-    });
+  var mailer = nodemailer.createTransport({
+    host: process.env.NODEMAILER_HOST,
+    auth: {
+      user: process.env.NODEMAILER_AUTH_USER,
+      pass: process.env.NODEMAILER_AUTH_PW
+    }
+  });
 
-    mailer.use('compile', hbs({
-        viewPath: 'build/public/assets/email_templates',
-        extName: '.hbs'
-    }));
+  mailer.use('compile', hbs({
+    viewPath: 'build/public/assets/email_templates',
+    extName: '.hbs'
+  }));
 
-    mailer.sendMail({
-        from: process.env.NODEMAILER_FROM_EMAIL,
-        to: req.body.email,
-        subject: 'React Starter Kit - Password Reset',
-        template: 'passwordReset',
-        context: {
-            email: req.body.email,
-            password: req.body.generatedPassword
-        }
-    }, function(err, res){
-        if(err){
-            // console.log(err)
-            return response.status(500).send('500 - Internal Server Error')
-        }
-        response.status(200).send('200 - The request has succeeded.') 
-    });
+  mailer.sendMail({
+    from: process.env.NODEMAILER_FROM_EMAIL,
+    to: req.body.email,
+    subject: 'React Starter Kit - Password Reset',
+    template: 'passwordReset',
+    context: {
+      email: req.body.email,
+      password: req.body.generatedPassword
+    }
+  }, function (err, res) {
+    if (err) {
+      // console.log(err)
+      return response.status(500).send('500 - Internal Server Error')
+    }
+    response.status(200).send('200 - The request has succeeded.')
+  });
 
 });
 
 app.use(fileUpload());
 const getFileType = (fileType) => {
-    let ext;
-    if(fileType == 'image/jpeg'){
-        ext = '.jpg';
-    }else if(fileType == 'image/png'){
-        ext = '.png';
-    }
-    return ext;
+  let ext;
+  if (fileType == 'image/jpeg') {
+    ext = '.jpg';
+  } else if (fileType == 'image/png') {
+    ext = '.png';
+  }
+  return ext;
 }
 
-app.post('/upload', function(req, res) {
-    
-    if (!req.files) return res.status(400).send('No files were uploaded.');
+app.post('/upload', function (req, res) {
 
-      var current_files = fs.readdirSync('./user-uploads/profile-images/');
-      let profilePic = req.files.selectedFile;
-      let file_ext = getFileType(profilePic.mimetype);
-      let tempFileName = randomstring.generate(21) + file_ext;
+  if (!req.files) return res.status(400).send('No files were uploaded.');
 
-      const fileExists = current_files.includes(tempFileName);
-    
-      while (fileExists) {
-          let string = randomstring.generate(21);
-          tempFileName = string + file_ext;
-  
-          if (!current_files.includes(tempFileName)) {   
-              break;
-          } 
+  var current_files = fs.readdirSync('./user-uploads/profile-images/');
+  let profilePic = req.files.selectedFile;
+  let file_ext = getFileType(profilePic.mimetype);
+  let tempFileName = randomstring.generate(21) + file_ext;
 
-      }
-    
-    let send_filePath = './user-uploads/profile-images/' + tempFileName;
-    
-    profilePic.mv(send_filePath, function(err) {
-        
-      if (err) return res.status(500).send(err);
-        
-      const res_dataObj = {
-          "newFileName": tempFileName
-      }
+  const fileExists = current_files.includes(tempFileName);
 
-      res.send(res_dataObj);
-      
-    });
+  while (fileExists) {
+    let string = randomstring.generate(21);
+    tempFileName = string + file_ext;
+
+    if (!current_files.includes(tempFileName)) {
+      break;
+    }
+
+  }
+
+  let send_filePath = './user-uploads/profile-images/' + tempFileName;
+
+  profilePic.mv(send_filePath, function (err) {
+
+    if (err) return res.status(500).send(err);
+
+    const res_dataObj = {
+      "newFileName": tempFileName
+    }
+
+    res.send(res_dataObj);
 
   });
+
+});
 
 
 app.listen(PORT, () => console.log(`App running on port ${PORT}`));

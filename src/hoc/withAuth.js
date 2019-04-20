@@ -6,38 +6,40 @@ import * as Cookies from 'es-cookie';
 
 import Signin from './../pages/auth/signIn';
 
+/* eslint-disable */
 const withAuth = conditionFunc => Component => props => {
 
-    if (props.unitTesting === 'true') {
-        return <Component {...props} />
-    }
+  if (props.unitTesting === 'true') {
+    return <Component {...props} />
+  }
 
-    return (
+  return (
 
-        <Query query={GET_CURRENT_USER}>
+    <Query query={GET_CURRENT_USER}>
 
-            {({ data, loading, error, refetch }) => {
+      {({ data, loading, error, refetch }) => {
 
-                if (loading) return null
+        if (loading) return null
 
-                if (typeof document !== 'undefined') {
+        if (typeof document !== 'undefined') {
 
-                    const tokenExpired = Cookies.get('token');
+          const tokenExpired = Cookies.get('token');
 
-                    if (tokenExpired == undefined) return <Signin {...props} refetch={refetch} />
-                }
+          if (tokenExpired == undefined) return <Signin {...props} refetch={refetch} />
+        }
 
-                if (props.session.getCurrentUser == null) return <Signin {...props} refetch={refetch} />
+        if (props.session.getCurrentUser == null) return <Signin {...props} refetch={refetch} />
 
-                return conditionFunc(data) ? <Component {...props} /> : <Redirect to="/signin" />
+        return conditionFunc(data) ? <Component {...props} /> : <Redirect to="/signin" />
 
-            }}
+      }}
 
 
-        </Query>
+    </Query>
 
-    )
+  )
 
 };
+/* eslint-enable */
 
 export default withAuth;
