@@ -8,47 +8,47 @@ import EditProfileMutations from './../../components/auth/editProfile_mutations'
 
 class EditProfile extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    head() {
-        return (
-            <Helmet bodyAttributes={{ class: "editProfilePage" }}>
-                <title>Edit Profile - React Starter Kit</title>
-            </Helmet>
-        );
-    }
+  head() {
+    return (
+      <Helmet bodyAttributes={{ class: "editProfilePage" }}>
+        <title>Edit Profile - React Starter Kit</title>
+      </Helmet>
+    );
+  }
 
-    render() {
+  render() {
 
-        return (
-            <div className="column column_12_12">
-                {this.head()}
-                <div className="signUp authForm fullWidth">
+    return (
+      <div className="column column_12_12">
+        {this.head()}
+        <div className="signUp authForm fullWidth">
 
-                    <h1 className="dark_headline">
-                        Edit Profile
-                    </h1>
+          <h1 className="dark_headline">
+            Edit Profile
+          </h1>
 
-                    <Query query={GET_USER_PROFILE}>
+          <Query query={GET_USER_PROFILE}>
 
-                        {({ data, loading, error }) => {
+            {({ data, loading, error }) => {
 
-                            if (loading) return <div>Loading</div>
-                            if (error) return <div>error</div>
+              if (loading) return <div>Loading</div>
+              if (error) return <div>error</div>
 
-                            return (
-                                <EditProfileMutations profile={data.getUserProfile} refetch={this.props.refetch} session={this.props.session}  />
-                            )
-                        }}
+              return (
+                <EditProfileMutations profile={data.getUserProfile} refetch={this.props.refetch} session={this.props.session} />
+              )
+            }}
 
-                    </Query>
+          </Query>
 
-                </div>
-            </div>
-        )
-    }
+        </div>
+      </div>
+    )
+  }
 }
 
 export default withAuth(session => session && session.getCurrentUser)(withRouter(EditProfile));

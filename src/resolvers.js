@@ -3,178 +3,181 @@ const bcrypt = require('bcrypt');
 var generator = require('generate-password');
 const axios = require('axios');
 const webConfig = require('./../webConfig');
+const config = require('config');
 
 const createToken = (user, secret, expiresIn) => {
 
-    const { firstName, email } = user;
+  const { firstName, email } = user;
 
-    return jwt.sign({
-        firstName, email
-    }, secret, {expiresIn})
+  return jwt.sign({
+    firstName, email
+  }, secret, { expiresIn })
 
 }
 
 exports.resolvers = {
 
-    Query: {
+  Query: {
 
-        getCurrentUser: async (root, args, {currentUser, User}) => {
-            if(!currentUser) {
-                return null;
-            }
-            const user = await User.findOne({email: currentUser.email});
-            return user;
-        },
+    getCurrentUser: async (root, args, { currentUser, User }) => {
+      if (!currentUser) {
+        return null;
+      }
+      const user = await User.findOne({ email: currentUser.email });
+      return user;
+    },
 
-        getUserProfile: async (root, args, {currentUser, User}) => {
-            if(!currentUser){
-                return null
-            }
-            const user = await User.findOne({email: currentUser.email})
-            return user;
-        },
+    getUserProfile: async (root, args, { currentUser, User }) => {
+      if (!currentUser) {
+        return null
+      }
+      const user = await User.findOne({ email: currentUser.email })
+      return user;
+    },
 
-        getAllUsers: async (root, args, {User}) => {
-            const users = await User.find().sort({
-                joinDate: "desc"
-            });
+    getAllUsers: async (root, args, { User }) => {
+      const users = await User.find().sort({
+        joinDate: "desc"
+      });
 
-            return users;
-        },
+      return users;
+    },
 
-        profilePage: async (root, {userName}, {User}) => {
-            const profile = await User.findOne({userName});
-            return profile;
-        }
+    profilePage: async (root, { userName }, { User }) => {
+      const profile = await User.findOne({ userName });
+      return profile;
+    }
+
+  },
+
+  Mutation: {
+
+    signupUser: async (root, { firstName, lastName, email, userName, password }, { User }) => {
+
+      const user = await User.findOne({ email, userName });
+
+      if (user) {
+        throw new Error('User already exits');
+      }
+
+      const newUser = await new User({
+        firstName,
+        lastName,
+        email,
+        userName,
+        password
+      }).save();
+
+      return { token: createToken(newUser, config.get('jwtPrivateKey'), "1hr") };
+    },
+
+    signinUser: async (root, { email, password }, { User }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error('User Not Found');
+      }
+
+      const isValidPassword = await bcrypt.compare(password, user.password);
+
+      if (!isValidPassword) {
+        throw new Error('inValid password');
+      }
+
+      return { token: createToken(user, config.get('jwtPrivateKey'), "1hr") };
 
     },
 
-    Mutation: {
-    
-        signupUser: async (root, {firstName, lastName, email, userName, password}, {User}) => {
+    editProfile: async (root, { email, bio }, { User }) => {
 
-            const user = await User.findOne({email, userName});
+      const user = await User.findOneAndUpdate({ email }, { $set: { bio } }, { new: true });
 
-            if(user){
-                throw new Error('User already exits');
-            }
+      if (!user) {
+        throw new Error('User Not Found');
+      }
 
-            const newUser = await new User({
-                firstName, 
-                lastName,
-                email,
-                userName,
-                password
-            }).save();
+      return user;
+    },
 
-            return {token: createToken(newUser, process.env.JWT_SECRET, "1hr")};
-        },
+    setProfileIMG: async (root, { email, profileImage }, { User }) => {
+      const user = await User.findOneAndUpdate({ email }, { $set: { profileImage } }, { new: true });
 
-        signinUser: async (root, {email, password }, {User}) => {
-            const user = await User.findOne({email});
+      if (!user) {
+        throw new Error('User Not Found');
+      }
 
-            if(!user){
-                throw new Error('User Not Found');
-            }
+      return user;
 
-            const isValidPassword = await bcrypt.compare(password, user.password);
+    },
 
-            if(!isValidPassword){
-                throw new Error('inValid password');
-            }
+    changeEmail: async (root, { currentEmail, newEmail }, { User }) => {
 
-            return {token: createToken(user, process.env.JWT_SECRET, "1hr")};
+      const user = await User.findOneAndUpdate({ email: currentEmail }, { $set: { email: newEmail } }, { new: true });
 
-        },
+      if (!user) {
+        throw new Error('User Not Found');
+      }
 
-        editProfile: async (root, {email, bio}, {User}) => {
+      return user;
 
-            const user = await User.findOneAndUpdate({email}, {$set: {bio}}, {new: true});
+    },
 
-            if(!user){
-                throw new Error('User Not Found');
-            }
+    changePassword: (root, { email, password }, { User }) => {
 
-            return user;
-        },
+      const saltRounds = 10;
 
-        setProfileIMG: async (root, {email, profileImage}, {User}) => {
-            const user = await User.findOneAndUpdate({email}, {$set: {profileImage}}, {new: true});
+      return bcrypt.hash(password, saltRounds).then(async function (hash) {
 
-            if(!user){
-                throw new Error('User Not Found');
-            }
+        const user = await User.findOneAndUpdate({ email }, { $set: { password: hash } }, { new: true });
 
-            return user;
-            
-        },
+        if (!user) {
+          throw new Error('User Not Found');
+        }
 
-        changeEmail: async (root, {currentEmail, newEmail}, {User}) => {
+        return user;
 
-            const user = await User.findOneAndUpdate({email: currentEmail}, {$set: {email: newEmail}}, {new: true});
+      });
 
-            if(!user){
-                throw new Error('User Not Found');
-            }
+    },
 
-            return user;
+    passwordReset: async (root, { email }, { User }) => {
 
-        },
+      const saltRounds = 10;
+      const generatedPassword = generator.generate({ length: 10, numbers: true });
 
-        changePassword: (root, {email, password}, {User}) => {
+      return bcrypt.hash(generatedPassword, saltRounds).then(async function (hash) {
 
-            const saltRounds = 10;
+        const user = await User.findOneAndUpdate({ email }, { $set: { password: hash } }, { new: true });
 
-            return bcrypt.hash(password, saltRounds).then(async function(hash) {
+        if (!user) {
+          throw new Error('User Not Found');
+        } else {
 
-                const user = await User.findOneAndUpdate({email}, {$set: {password: hash}}, {new: true});
+          const data = {
+            email,
+            generatedPassword
+          }
 
-                if(!user){
-                    throw new Error('User Not Found');
-                }
-    
-                return user;
-
+          /* eslint-disable */
+          axios.post(`${webConfig.siteURL}/password-reset`, data)
+            .then(function (response) {
+              // console.log('Email sent!');
+            })
+            .catch(function (error) {
+              // console.log(error);
             });
-
-        },
-
-        passwordReset: async (root, {email}, {User}) => {
-
-            const saltRounds = 10;
-            const generatedPassword = generator.generate({ length: 10, numbers: true });
-
-            return bcrypt.hash(generatedPassword, saltRounds).then(async function(hash) {
-                
-                const user = await User.findOneAndUpdate({email}, {$set: {password: hash}}, {new: true});
-
-                if(!user){
-                    throw new Error('User Not Found');
-                }else{
-
-                    const data = {
-                        email,
-                        generatedPassword
-                    }
-
-                    axios.post(`${webConfig.siteURL}/password-reset`, data)
-                    .then(function (response) {
-                        // console.log('Email sent!');
-                    })
-                    .catch(function (error) {
-                        // console.log(error);
-                    });
-
-                }
-
-                return user;
-
-            });
-
-            
+          /* eslint-enable */
 
         }
 
+        return user;
+
+      });
+
+
 
     }
+
+
+  }
 };
