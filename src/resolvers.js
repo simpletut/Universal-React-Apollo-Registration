@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 var generator = require('generate-password');
 const axios = require('axios');
 const webConfig = require('./../webConfig');
+const config = require('config');
 
 const createToken = (user, secret, expiresIn) => {
 
@@ -67,7 +68,7 @@ exports.resolvers = {
         password
       }).save();
 
-      return { token: createToken(newUser, process.env.JWT_SECRET, "1hr") };
+      return { token: createToken(newUser, config.get('jwtPrivateKey'), "1hr") };
     },
 
     signinUser: async (root, { email, password }, { User }) => {
@@ -83,7 +84,7 @@ exports.resolvers = {
         throw new Error('inValid password');
       }
 
-      return { token: createToken(user, process.env.JWT_SECRET, "1hr") };
+      return { token: createToken(user, config.get('jwtPrivateKey'), "1hr") };
 
     },
 

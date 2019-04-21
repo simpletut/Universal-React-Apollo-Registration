@@ -1,0 +1,13 @@
+{
+  "dbString": "mongodb://localhost/playground_tests",
+  "jwtPrivateKey": "1234",
+  "mailServer": {
+    "host": "example@host.com",
+    "auth": {
+      "user": "test",
+      "pass": "123"
+    },
+    "from": "Test",
+    "subject": "Password Reset"
+  }
+}

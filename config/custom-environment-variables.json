@@ -1,0 +1,10 @@
+{
+  "dbString": "db_connection_string",
+  "jwtPrivateKey": "jwt_secret_key",
+  "mailServer": {
+      "auth": {
+          "user": "mailServer_user",
+          "pass": "mailServer_pass"
+      }
+  }
+}

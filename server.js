@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import 'isomorphic-unfetch';
-require('dotenv').config({ path: 'variables.env' });
+import config from 'config';
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
@@ -33,11 +33,14 @@ import { resolvers } from './src/resolvers';
 import User from './src/models/User';
 
 // Connect MongoDB
-mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true }).then(() => {
+mongoose.connect(config.get('dbString'), { useNewUrlParser: true }).then(() => {
   console.log('Connection to DB successful');
 }).catch(err => {
   console.log(`Connection to DB Error: ${err}`);
 });
+
+// check env vars
+require('./config')();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -76,7 +79,7 @@ app.use(async (req, res, next) => {
   const token = req.cookies.token ? req.cookies.token : null;
   if (token !== null) {
     try {
-      const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
+      const currentUser = await jwt.verify(token, config.get('jwtPrivateKey'));
       req.currentUser = currentUser;
     } catch (err) {
       //   console.error(err);
@@ -159,10 +162,10 @@ app.get(['*/:param', '*'], (req, res) => {
 app.post('/password-reset', (req, response) => {
 
   var mailer = nodemailer.createTransport({
-    host: process.env.NODEMAILER_HOST,
+    host: config.get('mailServer.host'),
     auth: {
-      user: process.env.NODEMAILER_AUTH_USER,
-      pass: process.env.NODEMAILER_AUTH_PW
+      user: config.get('mailServer.auth.user'),
+      pass: config.get('mailServer.auth.pass')
     }
   });
 
@@ -172,9 +175,9 @@ app.post('/password-reset', (req, response) => {
   }));
 
   mailer.sendMail({
-    from: process.env.NODEMAILER_FROM_EMAIL,
+    from: config.get('mailServer.from'),
     to: req.body.email,
-    subject: 'React Starter Kit - Password Reset',
+    subject: config.get('mailServer.subject'),
     template: 'passwordReset',
     context: {
       email: req.body.email,
