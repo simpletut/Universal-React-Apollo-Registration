@@ -117,7 +117,7 @@ class Signin extends React.Component {
 
                     <div className="formBottomLinks">
                       <p>
-                        ${`Don't`} have an account? <NavLink to="/signup">Join now!</NavLink>
+                        {`Don't`} have an account? <NavLink to="/signup">Join now!</NavLink>
                       </p>
                       <p>
                         Forgot your password? <NavLink to="/account-recovery">Reset here</NavLink>

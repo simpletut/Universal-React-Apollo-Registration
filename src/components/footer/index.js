@@ -3,7 +3,7 @@ import React from 'react';
 export const UnconnectedFooter = () => (
   <footer data-test="footerComponent">
 
-    <div className="copyright">&copy; 2018 <a href="http://www.react-starter-kit.com" target="_blank" rel="noopener noreferrer">React-Starter-Kit.com</a></div>
+    <div className="copyright">&copy; 2019 <a href="http://www.react-starter-kit.com" target="_blank" rel="noopener noreferrer">React-Starter-Kit.com</a></div>
 
     <div className="social_icons">
       <ul>
