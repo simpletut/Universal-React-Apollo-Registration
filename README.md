@@ -31,7 +31,6 @@ Cookie Policy, Privacy Policy, T&C’s, FAQ
 
 404 (Not Found)
 
-
 The User Registration System is <strong>Fully Responsive</strong> out the box and you can <strong>Restrict Access</strong> to any page!
 
 ### Tech Stack:
@@ -45,6 +44,8 @@ The User Registration System is <strong>Fully Responsive</strong> out the box an
 * JSON Web Tokens
 * Webpack
 * SASS
+* ESLint
+* Husky (pre-push)
 
 ### Top Features:
 
@@ -257,18 +258,14 @@ Copy this URL as we will need it later.
 
 ### Configuring our Registration System to Connect to our Database
 
-1)	Open the project folder within your chosen text editor
-2)	Open the ‘variables.env’ file
-3)	Paste the connection string obtained from ‘mlab’ into the variable ‘DB_CONNECTION_STRING’
+We are using Node Environment Variables to supply our app with some more sensitive information. This includes our mail server user & password. In addion to our JWT Secret.
+
+To define, please go back to your terminal or cmd and write the following command
 
 ```
-DB_CONNECTION_STRING = mongodb://<dbuser>:<dbpassword>@...
+export db_connection_string=<Your-connection-string>
 ```
-4)	Update ‘<dbuser>’ & ‘<dbpassword>’ with the Username and Password of the User we created and added to the database earlier.
-
-```
-DB_CONNECTION_STRING = mongodb://myusername:mypassword@...
-```
+Please note: Windows users should use 'set' instead of 'export'
 
 ### JSON Web Tokens
 
@@ -276,11 +273,16 @@ We store a JSON Web Token within a Cookie to verify users.
 
 For security reasons, these Tokens have been configured to expire after 1 hour at which point the user will be asked to login again before continue browsing the website. (The expiration time can be updated within the signup and login resolvers).
 
-Whenever we check the validity of a Token, we compare it will a ‘Secret Key’ that is configured within the ‘variables.env’ file. 
+Whenever we check the validity of a Token, we compare it will a ‘Secret Key’ that is stored as a Node Environment Variable.
 
-As this is an open source project which means that it is you should change the default ‘Secret Key’.
+To define, please go back to your terminal or cmd and write the following command
 
-To update, simple open the ‘variables.env’ file and change the ‘JWT_SECRET’ variable to your own random string of numbers and characters. Whilst this should literally be any random string of numbers and letters, we recommend keeping a similar length to the existing key.
+```
+export jwt_secret_key=<Your-json-web-token-secret-key>
+```
+Please note: Windows users should use 'set' instead of 'export'
+
+This should be a random string of numbers and characters.
 
 
 ### Mail Server (Send password recovery email)
@@ -291,43 +293,20 @@ As we are using one-way password encryption, the account recovery tool automatic
 
 Before you can use this feature, you will need to configure ‘Nodemailer’.
 
-1)	Open ‘variables.env’ in your chosen text editor
-2)	Update the following variables to connect with your mail server:
+1)	Open ‘config/default.json’ in your chosen text editor
+2)	Update your mail server host and from email address.
+
+For security reasons we store your mail server 'user' and 'password' in Node Environment Variables.
+
+To define, please go back to your terminal or cmd and write the following commands
 
 ```
-NODEMAILER_HOST = <mail_server_host>
-NODEMAILER_AUTH_USER = <mail_server_username>
-NODEMAILER_AUTH_PW = <mail_server_password>
-NODEMAILER_FROM_EMAIL = <mail_server_from_email>
+export mailServer_user=<Your-mail-server-user>
+export mailServer_pass=<Your-mail-server-password>
 ```
+Please note: Windows users should use 'set' instead of 'export'
 
-Please note: You may need to contact your provider for this information
-
-#### Use Gmail
-
-If you do not have a mail server and would like to use Google Gmail, please follow these steps.
-
-1)	Open ‘Server.js’
-2)	Find the following block of code:
-
-```
-var mailer = nodemailer.createTransport({
-    host: process.env.NODEMAILER_HOST,
-    auth: {
-        user: process.env.NODEMAILER_AUTH_USER,
-        pass: process.env.NODEMAILER_AUTH_PW
-    }
-});
-```
-
-3)	Change ‘host:’ to ‘service:’
-4)	 Change ‘NODEMAILER_HOST’ to ‘NODEMAILER_SERVICE’
-5)	Save & Close ‘server.js’
-6)	Return to ‘variables.env’ and enter your Gmail Username & Password for the two AUTH parameters (NODEMAILER_AUTH_USER & NODEMAILER_AUTH_PW)
-7)	Ensure ‘NODEMAILER_FROM_EMAIL’ is set to your Gmail email address 
-
-Done!
-
+You may need to contact your provider for this information
 
 ### Run a Build
 
@@ -380,10 +359,6 @@ There are two commands you can use to run tests.
 -	 Shows test coverage across our application.
 
 Please note: not all code within our project requires testing or is testable.
-
-#### Test file Structure
-
-All unit tests are housed within the 'src/_test_' directory. We have replicated the same file structure as our main application, however test files have '.test' appended to them.
 
 #### When should I run these tests?
 
@@ -556,8 +531,6 @@ render() {
 ## Styles
 
 We are using SCSS (CSS pre-processor/bracketed version of SASS) to enable us to write cleaner and more reusable css code.
-
-Our main 'styles.scss' is compiled upon each save, once the project has been started from your terminal/cmd. Whilst the resulting 'styles.css' is the only 'css' called from within the project, the 'scss' version simply contains imports to the partial files created within folders.
 
 ## CSS
 
