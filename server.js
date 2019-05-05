@@ -39,6 +39,11 @@ mongoose.connect(config.get('dbString'), { useNewUrlParser: true }).then(() => {
   console.log(`Connection to DB Error: ${err}`);
 });
 
+// node:1793 DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+// https://github.com/Automattic/mongoose/issues/6890
+
+mongoose.set('useCreateIndex', true)
+
 // check env vars
 require('./config')();
 
