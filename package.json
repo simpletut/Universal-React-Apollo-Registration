@@ -31,8 +31,7 @@
     }
   },
   "dependencies": {
-    "config": "3.1.0",
-    "apollo-boost": "0.3.1",
+    "apollo-boost": "^0.4.4",
     "apollo-cache-inmemory": "1.5.1",
     "apollo-client": "2.5.1",
     "apollo-link-http": "1.5.14",
@@ -43,6 +42,7 @@
     "bcrypt": "2.0.1",
     "classnames": "2.2.6",
     "concurrently": "4.1.0",
+    "config": "3.1.0",
     "cookie-parser": "1.4.4",
     "copy-webpack-plugin": "5.0.2",
     "cors": "2.8.5",
@@ -89,14 +89,14 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "24.7.1",
     "babel-loader": "8.0.5",
+    "enzyme": "3.9.0",
+    "enzyme-adapter-react-16": "1.12.1",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.17.1",
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-react": "7.12.4",
     "husky": "1.3.1",
-    "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.12.1",
     "jest": "24.7.1"
   }
 }
