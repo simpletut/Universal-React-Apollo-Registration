@@ -60,7 +60,7 @@
     "isomorphic-unfetch": "3.0.0",
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.5.2",
-    "node-sass": "4.11.0",
+    "node-sass": "4.14.1",
     "nodemailer": "6.1.1",
     "nodemailer-express-handlebars": "3.0.0",
     "nodemon": "1.18.11",
